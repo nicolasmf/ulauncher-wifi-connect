@@ -29,6 +29,17 @@ class KeywordQueryEventListener(EventListener):
 
             ssids = list(set(str(result.stdout).split("\\n")[1:-1]))
 
+            if len(ssids) == 0:
+                return RenderResultListAction(
+                    ExtensionResultItem(
+                        icon="images/error.png",
+                        name="No devices found",
+                        on_enter=ExtensionCustomAction(
+                            on_enter=HideWindowAction(),
+                        ),
+                    )
+                )
+
             for i in range(len(ssids)):
                 output.append(
                     ExtensionResultItem(
@@ -53,9 +64,6 @@ class KeywordQueryEventListener(EventListener):
             )
 
             return RenderResultListAction(package_not_found_error)
-
-    def connect():
-        pass
 
 
 class ItemEnterEventListener(EventListener):
